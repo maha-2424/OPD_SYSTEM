@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Token Generated</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            background:
+                linear-gradient(
+                    rgba(8, 30, 40, 0.72),
+                    rgba(8, 30, 40, 0.82)
+                ),
+                url("https://images.unsplash.com/photo-1576091160399-112ba8d25d1d")
+                center/cover no-repeat;
+
+            padding: 20px;
+
+        }
+
+
+        .token-card {
+
+            width: 430px;
+
+            padding: 40px;
+
+            text-align: center;
+
+            background: rgba(255, 255, 255, 0.13);
+
+            border: 1px solid rgba(255, 255, 255, 0.3);
+
+            border-radius: 25px;
+
+            backdrop-filter: blur(18px);
+
+            -webkit-backdrop-filter: blur(18px);
+
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.45);
+
+            color: white;
+
+        }
+
+
+        .success-icon {
+
+            font-size: 45px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        h1 {
+
+            font-size: 27px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .message {
+
+            color: rgba(255, 255, 255, 0.72);
+
+            font-size: 14px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .token-number {
+
+            font-size: 65px;
+
+            font-weight: bold;
+
+            margin: 15px 0;
+
+            color: white;
+
+        }
+
+
+        .waiting-time {
+
+            margin: 15px 0 25px;
+
+            padding: 15px;
+
+            border-radius: 15px;
+
+            background: rgba(255, 255, 255, 0.10);
+
+            font-size: 16px;
+
+        }
+
+
+        .waiting-time strong {
+
+            font-size: 18px;
+
+        }
+
+
+        .token-label {
+
+            font-size: 13px;
+
+            color: rgba(255, 255, 255, 0.65);
+
+            text-transform: uppercase;
+
+            letter-spacing: 2px;
+
+        }
+
+
+        .details {
+
+            margin-top: 10px;
+
+            padding: 18px;
+
+            border-radius: 15px;
+
+            background: rgba(255, 255, 255, 0.10);
+
+            text-align: left;
+
+        }
+
+
+        .details p {
+
+            margin: 8px 0;
+
+            font-size: 14px;
+
+        }
+
+
+        .details strong {
+
+            color: white;
+
+        }
+
+
+        .emergency {
+
+            color: #ffd166;
+
+            font-weight: bold;
+
+        }
+
+
+        /* BUTTON CONTAINER */
+
+        .buttons {
+
+            display: flex;
+
+            gap: 12px;
+
+            margin-top: 25px;
+
+        }
+
+
+        /* BOTH BUTTONS */
+
+        .btn {
+
+            flex: 1;
+
+            padding: 13px 15px;
+
+            border-radius: 30px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            transition: 0.3s;
+
+            text-align: center;
+
+        }
+
+
+        /* BACK HOME */
+
+        .home-btn {
+
+            background: white;
+
+            color: #12343b;
+
+        }
+
+
+        /* VIEW TOKEN */
+
+        .view-token-btn {
+
+            background: #12343b;
+
+            color: white;
+
+            border: 1px solid rgba(255, 255, 255, 0.35);
+
+        }
+
+
+        .btn:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.3);
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .token-card {
+
+                width: 100%;
+
+                padding: 30px 20px;
+
+            }
+
+
+            .buttons {
+
+                flex-direction: column;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="token-card">
+
+
+        <div class="success-icon">
+            🎟️
+        </div>
+
+
+        <h1>
+            Token Generated
+        </h1>
+
+
+        <p class="message">
+            Your OPD token has been successfully created.
+        </p>
+
+
+        <div class="token-label">
+            Your Token Number
+        </div>
+
+
+        <div class="token-number">
+            {{ token_number }}
+        </div>
+
+
+        <!-- Waiting Time -->
+
+        <div class="waiting-time">
+
+            ⏱️ Estimated Waiting Time:
+
+            <strong>
+                {{ waiting_time }} minutes
+            </strong>
+
+        </div>
+
+
+        <div class="details">
+
+
+            <p>
+
+                <strong>
+                    Patient:
+                </strong>
+
+                {{ patient.name }}
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Doctor:
+                </strong>
+
+                Dr. {{ doctor.name }}
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Department:
+                </strong>
+
+                {{ doctor.specialization }}
+
+            </p>
+
+
+            {% if is_emergency %}
+
+                <p class="emergency">
+
+                    ⚠ Emergency Priority
+
+                </p>
+
+            {% else %}
+
+                <p>
+
+                    <strong>
+                        Type:
+                    </strong>
+
+                    Normal
+
+                </p>
+
+            {% endif %}
+
+
+        </div>
+
+
+        <!-- TWO OPTIONS -->
+
+        <div class="buttons">
+
+
+            <a
+                href="{% url 'home' %}"
+                class="btn home-btn"
+            >
+
+                ← Back to Home
+
+            </a>
+
+
+            <a
+                href="{% url 'view_token' %}"
+                class="btn view-token-btn"
+            >
+
+                🎫 View Your Token
+
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>

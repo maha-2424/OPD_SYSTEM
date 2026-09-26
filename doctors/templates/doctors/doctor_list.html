@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Doctors | OPD Management</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 40px 20px;
+
+            background:
+                linear-gradient(
+                    rgba(5, 25, 35, 0.75),
+                    rgba(5, 25, 35, 0.85)
+                ),
+                url("https://images.unsplash.com/photo-1576091160399-112ba8d25d1d")
+                center/cover fixed no-repeat;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .logo {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 15px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+
+            font-size: 30px;
+        }
+
+        h1 {
+            color: white;
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        .doctor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 22px;
+        }
+
+        .doctor-card {
+            padding: 25px;
+
+            background: rgba(255, 255, 255, 0.12);
+
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 22px;
+
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+
+            transition: 0.3s;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.17);
+        }
+
+        .doctor-icon {
+            width: 55px;
+            height: 55px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            margin-bottom: 18px;
+
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.18);
+
+            font-size: 25px;
+        }
+
+        .doctor-name {
+            color: white;
+            font-size: 21px;
+            margin-bottom: 6px;
+        }
+
+        .specialization {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .info {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .status {
+            display: inline-block;
+
+            padding: 7px 14px;
+            margin-top: 8px;
+
+            border-radius: 20px;
+
+            background: rgba(255, 255, 255, 0.18);
+            color: white;
+
+            font-size: 12px;
+        }
+
+        .empty {
+            text-align: center;
+            color: white;
+            padding: 40px;
+        }
+
+        .add-btn {
+            display: block;
+            width: fit-content;
+
+            margin: 35px auto 0;
+
+            padding: 13px 25px;
+
+            border-radius: 30px;
+
+            background: white;
+            color: #12343b;
+
+            text-decoration: none;
+            font-weight: bold;
+
+            transition: 0.3s;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <div class="logo">
+            👨‍⚕️
+        </div>
+
+        <h1>Our Doctors</h1>
+
+        <p class="subtitle">
+            Hospital OPD Token & Queue Management
+        </p>
+
+    </div>
+
+    {% if doctors %}
+
+        <div class="doctor-grid">
+
+            {% for doctor in doctors %}
+
+                <div class="doctor-card">
+
+                    <div class="doctor-icon">
+                        👨‍⚕️
+                    </div>
+
+                    <h2 class="doctor-name">
+                        Dr. {{ doctor.name }}
+                    </h2>
+
+                    <p class="specialization">
+                        {{ doctor.specialization }}
+                    </p>
+
+                    <p class="info">
+                        📞 {{ doctor.phone }}
+                    </p>
+
+                    <p class="info">
+                        ⏱️ {{ doctor.consultation_time }} minutes / patient
+                    </p>
+
+                    {% if doctor.available %}
+                        <span class="status">
+                            ● Available
+                        </span>
+                    {% else %}
+                        <span class="status">
+                            ● Unavailable
+                        </span>
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="doctor-card empty">
+            No doctors registered yet.
+        </div>
+
+    {% endif %}
+
+    <a href="/patients/doctor/register/" class="add-btn">
+        + Register New Doctor
+    </a>
+
+</div>
+
+</body>
+</html>

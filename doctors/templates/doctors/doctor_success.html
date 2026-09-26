@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Doctor Registered</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background:
+                linear-gradient(
+                    rgba(5, 25, 35, 0.65),
+                    rgba(5, 25, 35, 0.75)
+                ),
+                url("https://images.unsplash.com/photo-1559839734-2b71ea197ec2")
+                center/cover no-repeat;
+
+            padding: 20px;
+        }
+
+        .success-card {
+            width: 430px;
+            padding: 40px;
+
+            text-align: center;
+
+            background: rgba(255, 255, 255, 0.12);
+
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+        }
+
+        .success-icon {
+            width: 75px;
+            height: 75px;
+
+            margin: 0 auto 20px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.18);
+
+            color: white;
+            font-size: 35px;
+        }
+
+        h1 {
+            color: white;
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 15px;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            display: inline-block;
+
+            padding: 14px 25px;
+
+            border-radius: 30px;
+
+            background: white;
+            color: #12343b;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="success-card">
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+        <h1>Doctor Registered</h1>
+
+        <p>
+            Doctor has been successfully added to the OPD management system.
+        </p>
+
+       <a href="/doctor/register/" class="btn">
+           Register Another Doctor
+       </a>
+
+    </div>
+
+</body>
+</html>

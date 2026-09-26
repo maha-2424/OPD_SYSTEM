@@ -1,0 +1,837 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>OPD Care | Hospital OPD Management</title>
+
+    <link rel="stylesheet" href="{% static 'accounts/css/home.css' %}">
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="navbar-container">
+
+        <a href="{% url 'home' %}" class="logo">
+
+            <span class="logo-icon">✚</span>
+
+            <span>OPD<span class="logo-highlight">Care</span></span>
+
+        </a>
+
+
+        <nav class="nav-links">
+
+    <a href="{% url 'home' %}" class="active">
+        Home
+    </a>
+
+    <a href="#doctors">
+        Doctors
+    </a>
+
+    <a href="/patients/queue/">
+        Live Queue
+    </a>
+
+    <a href="/patients/token/">
+        Get Token
+    </a>
+
+    {% if user.is_authenticated %}
+
+        <a href="{% url 'view_token' %}">
+            My Token
+        </a>
+
+    {% endif %}
+
+</nav>
+
+
+        <div class="nav-actions">
+
+            {% if user.is_authenticated %}
+
+                <span class="welcome-user">
+                    Hi, {{ user.username }}
+                </span>
+
+                <a href="{% url 'logout' %}" class="login-btn">
+                    Logout
+                </a>
+
+            {% else %}
+
+                <a href="{% url 'login' %}" class="login-btn">
+                    Login
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- ================= HERO SECTION ================= -->
+
+<section class="hero">
+
+    <div class="hero-container">
+
+
+        <div class="hero-content">
+
+            <span class="hero-tag">
+                YOUR HEALTH. YOUR TIME. YOUR CHOICE.
+            </span>
+
+
+            <h1>
+
+                Healthcare without
+
+                <span>the waiting stress.</span>
+
+            </h1>
+
+
+            <p>
+
+                Find the right doctor, take your OPD token
+
+                and track your waiting queue from anywhere.
+
+            </p>
+
+
+            <div class="hero-buttons">
+
+                <a href="#doctors" class="primary-btn">
+
+                    Find a Doctor
+
+                    <span>→</span>
+
+                </a>
+
+
+                <a href="/patients/queue/" class="secondary-btn">
+
+                    View Live Queue
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-card">
+
+            <div class="hero-card-top">
+
+                <span class="status-dot"></span>
+
+                <span>OPD Queue Status</span>
+
+                <span class="live-badge">
+                    LIVE
+                </span>
+
+            </div>
+
+
+            <div class="queue-preview">
+
+                <div class="queue-doctor">
+
+                    <div class="doctor-avatar">
+                        👨‍⚕️
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Today's OPD
+                        </h3>
+
+                        <p>
+                            Check doctor availability
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="queue-stat">
+
+                    <strong>
+                        {{ doctor_data|length }}
+                    </strong>
+
+                    <span>
+                        Available Doctors
+                    </span>
+
+                </div>
+
+
+                <div class="queue-stat">
+
+                    <strong>
+                        Live
+                    </strong>
+
+                    <span>
+                        Queue Tracking
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= QUICK FEATURES ================= -->
+
+<section class="features">
+
+    <div class="features-container">
+
+
+        <div class="feature-item">
+
+            <div class="feature-icon">
+                🔎
+            </div>
+
+            <div>
+
+                <h3>
+                    Find a Doctor
+                </h3>
+
+                <p>
+                    Search doctors by specialization
+                    and availability.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="feature-item">
+
+            <div class="feature-icon">
+                🎫
+            </div>
+
+            <div>
+
+                <h3>
+                    Easy Token
+                </h3>
+
+                <p>
+                    Take an OPD token without
+                    standing in a queue.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="feature-item">
+
+            <div class="feature-icon">
+                ⏱
+            </div>
+
+            <div>
+
+                <h3>
+                    Know Your Wait
+                </h3>
+
+                <p>
+                    Get an estimated waiting time
+                    before your visit.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="feature-item">
+
+            <div class="feature-icon">
+                📺
+            </div>
+
+            <div>
+
+                <h3>
+                    Live Queue
+                </h3>
+
+                <p>
+                    Track the current OPD queue
+                    in real time.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= DOCTOR SECTION ================= -->
+
+<section class="doctors-section" id="doctors">
+
+    <div class="section-container">
+
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-label">
+                    OUR DOCTORS
+                </span>
+
+                <h2>
+                    Find the right doctor for you
+                </h2>
+
+                <p>
+                    Choose from available doctors and
+                    check the current waiting queue.
+                </p>
+
+            </div>
+
+
+            <a href="/patients/queue/" class="view-all">
+                View Live Queue →
+            </a>
+
+        </div>
+
+
+
+        <!-- SEARCH -->
+
+        <div class="doctor-search">
+
+            <span>
+                🔎
+            </span>
+
+            <input
+                type="text"
+                id="doctorSearch"
+                placeholder="Search by doctor name or specialization..."
+                onkeyup="searchDoctors()"
+            >
+
+        </div>
+
+
+
+        <!-- DOCTOR CARDS -->
+
+        <div class="doctor-grid" id="doctorGrid">
+
+
+            {% if doctor_data %}
+
+                {% for item in doctor_data %}
+
+
+                    <div
+                        class="doctor-card"
+                        data-search="{{ item.doctor.name|lower }} {{ item.doctor.specialization|lower }}"
+                    >
+
+
+                        <div class="doctor-card-header">
+
+                            <div class="doctor-avatar-large">
+                                👨‍⚕️
+                            </div>
+
+
+                            <div class="availability">
+
+                                <span class="availability-dot"></span>
+
+                                Available
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="doctor-info">
+
+                            <h3>
+                                Dr. {{ item.doctor.name }}
+                            </h3>
+
+
+                            <p class="specialization">
+                                {{ item.doctor.specialization }}
+                            </p>
+
+
+                            <div class="doctor-details">
+
+
+                                <div class="detail">
+
+                                    <span class="detail-icon">
+                                        👥
+                                    </span>
+
+                                    <div>
+
+                                        <strong>
+                                            {{ item.waiting_count }}
+                                        </strong>
+
+                                        <span>
+                                            Patients waiting
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="detail">
+
+                                    <span class="detail-icon">
+                                        ⏱
+                                    </span>
+
+                                    <div>
+
+                                        <strong>
+                                            {% widthratio item.waiting_count 1 item.doctor.consultation_time %} min
+                                        </strong>
+
+                                        <span>
+                                            Estimated wait
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="consultation">
+
+                                Average consultation:
+
+                                {{ item.doctor.consultation_time }}
+
+                                minutes
+
+                            </div>
+
+
+                            <a
+                                href="/patients/token/?doctor={{ item.doctor.id }}"
+                                class="token-btn"
+                            >
+
+                                Take Token
+
+                                <span>→</span>
+
+                            </a>
+
+
+                            <a
+                                href="/patients/queue/"
+                                class="queue-link"
+                            >
+
+                                View Queue
+
+                            </a>
+
+
+                        </div>
+
+                    </div>
+
+
+                {% endfor %}
+
+
+            {% else %}
+
+                <div class="no-doctors">
+
+                    <div>
+                        🏥
+                    </div>
+
+                    <h3>
+                        No doctors available right now
+                    </h3>
+
+                    <p>
+                        Please check again later.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= HOW IT WORKS ================= -->
+
+<section class="how-section">
+
+    <div class="section-container">
+
+
+        <div class="center-heading">
+
+            <span class="section-label">
+                SIMPLE PROCESS
+            </span>
+
+            <h2>
+                How OPD Care works
+            </h2>
+
+            <p>
+                Get your consultation token in just a few simple steps.
+            </p>
+
+        </div>
+
+
+        <div class="steps">
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    01
+                </div>
+
+                <div class="step-icon">
+                    🔎
+                </div>
+
+                <h3>
+                    Find a Doctor
+                </h3>
+
+                <p>
+                    Browse available doctors and
+                    check their current queue.
+                </p>
+
+            </div>
+
+
+            <div class="step-line"></div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    02
+                </div>
+
+                <div class="step-icon">
+                    🎫
+                </div>
+
+                <h3>
+                    Take Your Token
+                </h3>
+
+                <p>
+                    Login or create an account
+                    and request your OPD token.
+                </p>
+
+            </div>
+
+
+            <div class="step-line"></div>
+
+
+            <!-- MODIFIED ONLY THIS STEP -->
+
+            <div class="step">
+
+                <div class="step-number">
+                    03
+                </div>
+
+                <div class="step-icon">
+                    🎫
+                </div>
+
+                <h3>
+                    View Your Token
+                </h3>
+
+                <p>
+                    View your OPD token number and
+                    estimated waiting time after booking.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= LIVE QUEUE CTA ================= -->
+
+<section class="queue-cta">
+
+    <div class="queue-cta-container">
+
+
+        <div>
+
+            <span class="section-label">
+                LIVE OPD STATUS
+            </span>
+
+            <h2>
+                Don't wait blindly.
+                Know your queue.
+            </h2>
+
+            <p>
+                Check the current doctor-wise waiting
+                queue before visiting the hospital.
+            </p>
+
+        </div>
+
+
+        <a
+            href="/patients/queue/"
+            class="queue-cta-btn"
+        >
+
+            View Live Queue
+
+            <span>→</span>
+
+        </a>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+    <div class="footer-container">
+
+
+        <div class="footer-brand">
+
+            <a href="{% url 'home' %}" class="logo footer-logo">
+
+                <span class="logo-icon">
+                    ✚
+                </span>
+
+                <span>
+                    OPD<span class="logo-highlight">Care</span>
+                </span>
+
+            </a>
+
+
+            <p>
+                A smarter way to manage your
+                hospital OPD experience.
+            </p>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>
+                Quick Links
+            </h4>
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="#doctors">
+                Doctors
+            </a>
+
+            <a href="/patients/queue/">
+                Live Queue
+            </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>
+                Patients
+            </h4>
+
+            <a href="/patients/token/">
+                Get Token
+            </a>
+
+            <a href="/patients/queue/">
+                Track Queue
+            </a>
+
+            <a href="{% url 'login' %}">
+                Login
+            </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>
+                OPD Care
+            </h4>
+
+            <a href="#doctors">
+                Available Doctors
+            </a>
+
+            <a href="/patients/queue/">
+                Queue Status
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <p>
+            © 2026 OPD Care. Hospital OPD Token & Queue Management.
+        </p>
+
+    </div>
+
+</footer>
+
+
+
+<!-- ================= SEARCH SCRIPT ================= -->
+
+<script>
+
+function searchDoctors() {
+
+    const searchInput =
+        document.getElementById("doctorSearch");
+
+    const searchValue =
+        searchInput.value.toLowerCase();
+
+    const doctorCards =
+        document.querySelectorAll(".doctor-card");
+
+
+    doctorCards.forEach(function(card) {
+
+        const searchText =
+            card.getAttribute("data-search");
+
+
+        if (searchText.includes(searchValue)) {
+
+            card.style.display = "block";
+
+        } else {
+
+            card.style.display = "none";
+
+        }
+
+    });
+
+}
+
+</script>
+
+
+</body>
+
+</html>

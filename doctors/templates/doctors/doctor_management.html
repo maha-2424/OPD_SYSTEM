@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Doctor Management</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 40px 20px;
+
+            background:
+                linear-gradient(
+                    rgba(8, 30, 40, 0.85),
+                    rgba(8, 30, 40, 0.92)
+                ),
+                url("https://images.unsplash.com/photo-1576091160399-112ba8d25d1d")
+                center/cover no-repeat;
+
+            color: white;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 35px;
+        }
+
+        .doctor-card {
+            margin-bottom: 20px;
+            padding: 25px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 20px;
+
+            backdrop-filter: blur(15px);
+        }
+
+        .doctor-info {
+            flex: 1;
+        }
+
+        .doctor-name {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .specialization {
+            margin-top: 6px;
+
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        .consultation {
+            margin-top: 8px;
+
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        .status {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .available {
+            color: #6effb0;
+        }
+
+        .unavailable {
+            color: #ff7777;
+        }
+
+        button {
+            padding: 11px 18px;
+
+            border: none;
+            border-radius: 9px;
+
+            background: white;
+            color: #12313d;
+
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .empty {
+            text-align: center;
+
+            color: rgba(255, 255, 255, 0.6);
+
+            padding: 30px;
+        }
+
+        @media (max-width: 650px) {
+
+            .doctor-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            button {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <h1>
+        👨‍⚕️ Doctor Management
+    </h1>
+
+    <p class="subtitle">
+        Manage doctor availability
+    </p>
+
+
+    {% for doctor in doctors %}
+
+        <div class="doctor-card">
+
+            <div class="doctor-info">
+
+                <div class="doctor-name">
+                    👨‍⚕️ Dr. {{ doctor.name }}
+                </div>
+
+                <div class="specialization">
+                    {{ doctor.specialization }}
+                </div>
+
+                <div class="consultation">
+                    Average Consultation:
+                    {{ doctor.consultation_time }}
+                    minutes
+                </div>
+
+
+                {% if doctor.available %}
+
+                    <div class="status available">
+                        🟢 Available Today
+                    </div>
+
+                {% else %}
+
+                    <div class="status unavailable">
+                        🔴 Not Available Today
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <form
+                method="POST"
+                action="{% url 'toggle_doctor_availability' doctor.id %}"
+            >
+
+                {% csrf_token %}
+
+                {% if doctor.available %}
+
+                    <button type="submit">
+                        Mark Unavailable
+                    </button>
+
+                {% else %}
+
+                    <button type="submit">
+                        Mark Available
+                    </button>
+
+                {% endif %}
+
+            </form>
+
+        </div>
+
+    {% empty %}
+
+        <div class="empty">
+            No doctors registered yet.
+        </div>
+
+    {% endfor %}
+
+</div>
+
+</body>
+
+</html>
