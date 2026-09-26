@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Token Generated</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background:
+                linear-gradient(
+                    rgba(8,30,40,0.88),
+                    rgba(8,30,40,0.94)
+                ),
+                url("https://images.unsplash.com/photo-1576091160399-112ba8d25d1d")
+                center/cover no-repeat;
+
+            color: white;
+        }
+
+        .card {
+            width: 460px;
+            padding: 40px;
+
+            text-align: center;
+
+            background: rgba(255,255,255,0.12);
+
+            border: 1px solid rgba(255,255,255,0.25);
+
+            border-radius: 24px;
+
+            backdrop-filter: blur(18px);
+        }
+
+        .token {
+            font-size: 55px;
+            font-weight: bold;
+
+            margin: 25px 0;
+
+            color: white;
+        }
+
+        .info {
+            margin: 12px 0;
+
+            color: rgba(255,255,255,0.85);
+        }
+
+        .success {
+            color: #7dffb2;
+            font-weight: bold;
+        }
+
+        a {
+            display: block;
+
+            margin-top: 25px;
+
+            padding: 13px;
+
+            border-radius: 12px;
+
+            background: white;
+
+            color: #12343b;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="success">
+        ✅ Token Generated Successfully
+    </div>
+
+    <div class="token">
+        T{{ token_number }}
+    </div>
+
+    <div class="info">
+        Patient:
+        <strong>{{ patient.name }}</strong>
+    </div>
+
+    <div class="info">
+        Doctor:
+        <strong>
+            Dr. {{ doctor.name }}
+        </strong>
+    </div>
+
+    <div class="info">
+        Specialization:
+        {{ doctor.specialization }}
+    </div>
+
+    <div class="info">
+        Patients Ahead:
+        <strong>{{ patients_ahead }}</strong>
+    </div>
+
+    <div class="info">
+        Estimated Waiting Time:
+        <strong>{{ waiting_time }} minutes</strong>
+    </div>
+
+    {% if is_emergency %}
+
+        <div class="success">
+            🚨 Emergency Priority
+        </div>
+
+    {% endif %}
+
+    <a href="{% url 'receptionist_register_patient' %}">
+        Register Another Patient
+    </a>
+
+</div>
+
+</body>
+
+</html>
