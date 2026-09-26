@@ -433,3 +433,59 @@ def complete_token(request, token_id):
         token.save()
 
     return redirect("doctor_dashboard")
+
+
+def live_display(request):
+
+    doctors = Doctor.objects.filter(
+        available=True
+    ).order_by(
+        "specialization",
+        "name"
+    )
+
+    doctor_data = []
+
+    for doctor in doctors:
+
+        # Currently serving patient
+        serving_token = Token.objects.filter(
+            doctor=doctor,
+            status="Serving"
+        ).order_by(
+            "created_at"
+        ).first()
+
+        # If doctor is not serving anyone,
+        # don't show the doctor on live display
+        if not serving_token:
+            continue
+
+        # Waiting patients for this doctor
+        waiting_tokens = Token.objects.filter(
+            doctor=doctor,
+            status="Waiting"
+        ).order_by(
+            "-is_emergency",
+            "token_number"
+        )
+
+        waiting_count = waiting_tokens.count()
+
+        # Next patient in queue
+        next_token = waiting_tokens.first()
+
+        doctor_data.append({
+            "doctor": doctor,
+            "serving_token": serving_token,
+            "next_token": next_token,
+            "waiting_count": waiting_count
+        })
+
+    return render(
+        request,
+        "patients/live_display.html",
+        {
+            "doctor_data": doctor_data
+        }
+    )

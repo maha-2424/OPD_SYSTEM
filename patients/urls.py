@@ -40,4 +40,9 @@ urlpatterns = [
         name="complete_token"
     ),
 
+path(
+    "live-display/",
+    views.live_display,
+    name="live_display"
+), 
 ]
