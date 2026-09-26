@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Profile | OPD Management</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 30px;
+
+            background:
+                linear-gradient(
+                    rgba(5, 25, 35, 0.82),
+                    rgba(5, 25, 35, 0.90)
+                ),
+                url("https://images.unsplash.com/photo-1576091160399-112ba8d25d1d")
+                center/cover no-repeat;
+
+            color: white;
+        }
+
+        .profile-card {
+
+            width: 520px;
+
+            padding: 40px;
+
+            background: rgba(255, 255, 255, 0.12);
+
+            border: 1px solid rgba(255, 255, 255, 0.25);
+
+            border-radius: 25px;
+
+            backdrop-filter: blur(18px);
+
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.45);
+        }
+
+        .doctor-icon {
+
+            width: 85px;
+            height: 85px;
+
+            margin: 0 auto 18px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.18);
+
+            font-size: 42px;
+        }
+
+        h1 {
+
+            text-align: center;
+
+            font-size: 28px;
+
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+
+            text-align: center;
+
+            color: rgba(255,255,255,0.65);
+
+            margin-bottom: 30px;
+        }
+
+        .info-box {
+
+            padding: 18px;
+
+            margin-bottom: 12px;
+
+            background: rgba(255,255,255,0.08);
+
+            border: 1px solid rgba(255,255,255,0.15);
+
+            border-radius: 15px;
+        }
+
+        .label {
+
+            font-size: 12px;
+
+            color: rgba(255,255,255,0.55);
+
+            margin-bottom: 6px;
+        }
+
+        .value {
+
+            font-size: 17px;
+
+            font-weight: bold;
+        }
+
+        .availability {
+
+            margin-top: 25px;
+
+            padding: 20px;
+
+            text-align: center;
+
+            border-radius: 16px;
+
+            background: rgba(255,255,255,0.08);
+        }
+
+        .available {
+
+            color: #6effb0;
+
+            font-size: 18px;
+
+            font-weight: bold;
+        }
+
+        .unavailable {
+
+            color: #ff7777;
+
+            font-size: 18px;
+
+            font-weight: bold;
+        }
+
+        .availability-text {
+
+            margin-top: 8px;
+
+            color: rgba(255,255,255,0.65);
+
+            font-size: 13px;
+        }
+
+        .availability-btn {
+
+            width: 100%;
+
+            margin-top: 18px;
+
+            padding: 13px;
+
+            border: none;
+
+            border-radius: 25px;
+
+            background: white;
+
+            color: #12343b;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .availability-btn:hover {
+
+            opacity: 0.88;
+
+            transform: translateY(-1px);
+        }
+
+        .back-btn {
+
+            display: block;
+
+            text-align: center;
+
+            margin-top: 22px;
+
+            color: rgba(255,255,255,0.75);
+
+            text-decoration: none;
+
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+
+            color: white;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="profile-card">
+
+
+    <div class="doctor-icon">
+        👨‍⚕️
+    </div>
+
+
+    <h1>
+        Dr. {{ doctor.name }}
+    </h1>
+
+
+    <p class="subtitle">
+        Doctor Profile
+    </p>
+
+
+    <div class="info-box">
+
+        <div class="label">
+            SPECIALIZATION
+        </div>
+
+        <div class="value">
+            {{ doctor.specialization }}
+        </div>
+
+    </div>
+
+
+    <div class="info-box">
+
+        <div class="label">
+            PHONE NUMBER
+        </div>
+
+        <div class="value">
+            {{ doctor.phone }}
+        </div>
+
+    </div>
+
+
+    <div class="info-box">
+
+        <div class="label">
+            CONSULTATION TIME
+        </div>
+
+        <div class="value">
+            {{ doctor.consultation_time }} minutes
+        </div>
+
+    </div>
+
+
+    <div class="info-box">
+
+        <div class="label">
+            USERNAME
+        </div>
+
+        <div class="value">
+            {{ request.user.username }}
+        </div>
+
+    </div>
+
+
+    <div class="availability">
+
+
+        {% if doctor.available %}
+
+            <div class="available">
+                🟢 Available Today
+            </div>
+
+            <div class="availability-text">
+                Patients can currently book tokens with you.
+            </div>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="availability-btn"
+                >
+                    Mark Me Unavailable
+                </button>
+
+            </form>
+
+        {% else %}
+
+            <div class="unavailable">
+                🔴 Not Available Today
+            </div>
+
+            <div class="availability-text">
+                Patients cannot book new tokens with you.
+            </div>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="availability-btn"
+                >
+                    Mark Me Available
+                </button>
+
+            </form>
+
+        {% endif %}
+
+
+    </div>
+
+
+    <a
+        href="{% url 'doctor_dashboard' %}"
+        class="back-btn"
+    >
+        ← Back to Doctor Dashboard
+    </a>
+
+
+</div>
+
+
+</body>
+
+</html>

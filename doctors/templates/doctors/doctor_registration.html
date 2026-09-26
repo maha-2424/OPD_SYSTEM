@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Doctor Registration | OPD Management</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background:
+                linear-gradient(
+                    rgba(5, 25, 35, 0.65),
+                    rgba(5, 25, 35, 0.75)
+                ),
+                url("https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d")
+                center/cover no-repeat;
+
+            padding: 20px;
+        }
+
+
+        .registration-card {
+
+            width: 430px;
+
+            padding: 35px;
+
+            background: rgba(255, 255, 255, 0.12);
+
+            border: 1px solid rgba(255, 255, 255, 0.3);
+
+            border-radius: 25px;
+
+            backdrop-filter: blur(18px);
+
+            -webkit-backdrop-filter: blur(18px);
+
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.45);
+        }
+
+
+        .logo {
+
+            width: 65px;
+            height: 65px;
+
+            margin: 0 auto 15px;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.18);
+
+            font-size: 30px;
+        }
+
+
+        h1 {
+
+            text-align: center;
+
+            color: white;
+
+            font-size: 28px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .subtitle {
+
+            text-align: center;
+
+            color: rgba(255, 255, 255, 0.75);
+
+            font-size: 14px;
+
+            margin-bottom: 28px;
+        }
+
+
+        .input-group {
+
+            margin-bottom: 17px;
+        }
+
+
+        .input-group label {
+
+            display: block;
+
+            color: white;
+
+            font-size: 13px;
+
+            margin-bottom: 7px;
+
+            margin-left: 5px;
+        }
+
+
+        .input-group input {
+
+            width: 100%;
+
+            padding: 14px 17px;
+
+            border: 1px solid rgba(255, 255, 255, 0.35);
+
+            border-radius: 30px;
+
+            outline: none;
+
+            background: rgba(255, 255, 255, 0.13);
+
+            color: white;
+
+            font-size: 14px;
+        }
+
+
+        .input-group input::placeholder {
+
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+
+        .input-group input:focus {
+
+            border-color: white;
+
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+
+        .section-title {
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            margin-top: 22px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .error-message {
+
+            padding: 12px 15px;
+
+            margin-bottom: 18px;
+
+            border-radius: 10px;
+
+            background: rgba(255, 70, 70, 0.18);
+
+            border: 1px solid rgba(255, 100, 100, 0.4);
+
+            color: #ffb3b3;
+
+            font-size: 13px;
+        }
+
+
+        .register-btn {
+
+            width: 100%;
+
+            padding: 14px;
+
+            margin-top: 10px;
+
+            border: none;
+
+            border-radius: 30px;
+
+            background: white;
+
+            color: #12343b;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .register-btn:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+
+        .footer-text {
+
+            text-align: center;
+
+            color: rgba(255, 255, 255, 0.65);
+
+            font-size: 12px;
+
+            margin-top: 20px;
+        }
+
+
+        @media (max-width: 500px) {
+
+            .registration-card {
+
+                width: 100%;
+
+                padding: 28px 22px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="registration-card">
+
+
+    <div class="logo">
+
+        👨‍⚕️
+
+    </div>
+
+
+    <h1>
+
+        Doctor Registration
+
+    </h1>
+
+
+    <p class="subtitle">
+
+        Hospital OPD Token & Queue Management
+
+    </p>
+
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div class="error-message">
+
+                {{ message }}
+
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+
+        <!-- Doctor Information -->
+
+        <div class="section-title">
+
+            Doctor Information
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>
+
+                Doctor Name
+
+            </label>
+
+            <input
+                type="text"
+                name="name"
+                placeholder="Enter doctor name"
+                required
+            >
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>
+
+                Specialization
+
+            </label>
+
+            <input
+                type="text"
+                name="specialization"
+                placeholder="e.g. Cardiologist"
+                required
+            >
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>
+
+                Phone Number
+
+            </label>
+
+            <input
+                type="tel"
+                name="phone"
+                placeholder="Enter phone number"
+                maxlength="15"
+                required
+            >
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>
+
+                Average Consultation Time (minutes)
+
+            </label>
+
+            <input
+                type="number"
+                name="consultation_time"
+                placeholder="e.g. 15"
+                min="1"
+                required
+            >
+
+        </div>
+
+
+        <!-- Login Information -->
+
+        <div class="section-title">
+
+            Doctor Login Information
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>
+
+                Username
+
+            </label>
+
+            <input
+                type="text"
+                name="username"
+                placeholder="Create a username"
+                required
+            >
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>
+
+                Password
+
+            </label>
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Create a password"
+                required
+            >
+
+        </div>
+
+
+        <div class="input-group">
+
+            <label>
+
+                Confirm Password
+
+            </label>
+
+            <input
+                type="password"
+                name="confirm_password"
+                placeholder="Confirm your password"
+                required
+            >
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="register-btn"
+        >
+
+            Register Doctor
+
+        </button>
+
+
+    </form>
+
+
+    <p class="footer-text">
+
+        Doctor Portal • OPD Management System
+
+    </p>
+
+
+</div>
+
+
+</body>
+
+</html>

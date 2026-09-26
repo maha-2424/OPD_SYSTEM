@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Dashboard - OPD Management</title>
+
+</head>
+
+<body>
+
+    <h1>OPD Management Dashboard</h1>
+
+    <h2>
+        Welcome, {{ user.username }}!
+    </h2>
+
+
+    <hr>
+
+
+    <h3>Doctors</h3>
+
+    <a href="/doctor/register/">
+        Register Doctor
+    </a>
+
+    <br><br>
+
+    <a href="/doctor/manage/">
+        Manage Doctors
+    </a>
+
+
+    <hr>
+
+
+    <h3>Patients</h3>
+
+    <a href="/patients/token/">
+        Generate Patient Token
+    </a>
+
+    <br><br>
+
+    <a href="/patients/queue/">
+        View Queue
+    </a>
+
+    <br><br>
+
+    <a href="/patients/manage/">
+        Manage Queue
+    </a>
+
+
+    <hr>
+
+
+    <a href="{% url 'logout' %}">
+        Logout
+    </a>
+
+</body>
+</html>

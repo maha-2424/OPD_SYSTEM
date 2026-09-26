@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Queue Management</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 40px 20px;
+
+            background:
+                linear-gradient(
+                    rgba(8, 30, 40, 0.85),
+                    rgba(8, 30, 40, 0.92)
+                ),
+                url("https://images.unsplash.com/photo-1576091160399-112ba8d25d1d")
+                center/cover no-repeat;
+
+            color: white;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 35px;
+        }
+
+        .doctor-card {
+            margin-bottom: 25px;
+            padding: 25px;
+
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 20px;
+
+            backdrop-filter: blur(15px);
+        }
+
+        .doctor-name {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .specialization {
+            color: rgba(255, 255, 255, 0.65);
+            margin-top: 5px;
+            margin-bottom: 20px;
+        }
+
+        /* Currently Serving */
+
+        .serving-box {
+            padding: 18px;
+            margin-bottom: 20px;
+
+            border-radius: 12px;
+
+            background: rgba(40, 200, 120, 0.18);
+            border: 1px solid rgba(40, 200, 120, 0.4);
+        }
+
+        .serving-title {
+            color: #6effb0;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .serving-token {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .serving-patient {
+            margin-top: 5px;
+            margin-bottom: 12px;
+        }
+
+        /* Waiting Tokens */
+
+        .token {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 15px;
+            margin-bottom: 10px;
+
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .token-number {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .patient-name {
+            font-size: 15px;
+            margin-top: 5px;
+        }
+
+        .emergency {
+            color: #ffd166;
+            font-weight: bold;
+        }
+
+        .normal {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .empty {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            padding: 15px;
+        }
+
+        .manage-button {
+            margin-top: 10px;
+            padding: 8px 14px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: #ffffff;
+            color: #12313d;
+
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .manage-button:hover {
+            opacity: 0.85;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>👨‍⚕️ Queue Management</h1>
+
+    <p class="subtitle">
+        Doctor / Staff Patient Management
+    </p>
+
+
+    {% for item in doctor_queues %}
+
+        <div class="doctor-card">
+
+            <!-- Doctor Information -->
+
+            <div class="doctor-name">
+                👨‍⚕️ Dr. {{ item.doctor.name }}
+            </div>
+
+            <div class="specialization">
+                {{ item.doctor.specialization }}
+            </div>
+
+
+            <!-- Currently Serving Patient -->
+
+            {% if item.serving_token %}
+
+                <div class="serving-box">
+
+                    <div class="serving-title">
+                        🟢 Currently Serving
+                    </div>
+
+                    <div class="serving-token">
+                        Token {{ item.serving_token.token_number }}
+                    </div>
+
+                    <div class="serving-patient">
+                        Patient: {{ item.serving_token.patient.name }}
+                    </div>
+
+                    <form
+                        method="POST"
+                        action="{% url 'complete_token' item.serving_token.id %}"
+                    >
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="manage-button"
+                        >
+                            ✅ Complete Patient
+                        </button>
+
+                    </form>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- Waiting Patients -->
+
+            {% for token in item.tokens %}
+
+                <div class="token">
+
+                    <div>
+
+                        <div class="token-number">
+                            Token {{ token.token_number }}
+                        </div>
+
+                        <div class="patient-name">
+                            {{ token.patient.name }}
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+                        {% if token.is_emergency %}
+
+                            <div class="emergency">
+                                🚨 Emergency
+                            </div>
+
+                        {% else %}
+
+                            <div class="normal">
+                                Normal
+                            </div>
+
+                        {% endif %}
+
+
+                        <!-- Start Serving -->
+
+                        <form
+                            method="POST"
+                            action="{% url 'start_serving' token.id %}"
+                        >
+
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="manage-button"
+                            >
+                                ▶️ Start Serving
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            {% empty %}
+
+                {% if not item.serving_token %}
+
+                    <div class="empty">
+                        No patients waiting.
+                    </div>
+
+                {% endif %}
+
+            {% endfor %}
+
+        </div>
+
+    {% empty %}
+
+        <div class="empty">
+            No doctors are currently available.
+        </div>
+
+    {% endfor %}
+
+</div>
+
+</body>
+</html>
